@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -16,7 +17,7 @@ type Config struct {
 	RABBIT_MQ_URL        string
 }
 
-func (c *Config) LoadConfig() (*Config, error) {
+func Load() (*Config, error) {
 	err := godotenv.Load()
 
 	if err != nil {
@@ -32,7 +33,7 @@ func (c *Config) LoadConfig() (*Config, error) {
 	rabbit_mq := os.Getenv("RABBIT_MQ_URL")
 
 	if db == "" || port == "" || bucket_name == "" || r2_account_id == "" || r2_access_key_id == "" || r2_access_key_secret == "" || rabbit_mq == "" {
-		return nil, err
+		return nil, errors.New("missing required environment variables")
 	}
 
 	return &Config{
