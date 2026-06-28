@@ -34,9 +34,10 @@ func NewR2Service(cfg *config.Config) (*types.R2Service, error) {
 	})
 
 	return &types.R2Service{
-		R2Client:  r2Client,
-		Bucket:    bucket,
-		AccountID: accountID,
+		R2Client:     r2Client,
+		Bucket:       bucket,
+		AccountID:    accountID,
+		PublicDomain: cfg.R2_PUBLIC_DOMAIN,
 	}, nil
 }
 

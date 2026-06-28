@@ -32,8 +32,8 @@ func CreateVideo(conn *amqp.Connection, db *pgxpool.Pool, r2Svc *types.R2Service
 		return fmt.Errorf("upload to r2: %w", err)
 	}
 
-	video.OriginalURL = fmt.Sprintf("https://%s.r2.cloudflarestorage.com/%s/%s",
-		r2Svc.AccountID, r2Svc.Bucket, key)
+	video.OriginalURL = fmt.Sprintf("%s/%s/%s",
+		r2Svc.PublicDomain, r2Svc.Bucket, key)
 
 	if err := repository.CreateVideo(conn, db, video); err != nil {
 		return fmt.Errorf("create video record: %w", err)

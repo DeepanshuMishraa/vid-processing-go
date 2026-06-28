@@ -210,8 +210,8 @@ func keyFromURL(rawURL string) (string, error) {
 }
 
 func publicURL(svc *types.R2Service, key string) string {
-	return fmt.Sprintf("https://%s.r2.cloudflarestorage.com/%s/%s",
-		svc.AccountID, svc.Bucket, key)
+	return fmt.Sprintf("%s/%s/%s",
+		svc.PublicDomain, svc.Bucket, key)
 }
 
 func setFailed(db *pgxpool.Pool, video *models.Video) {

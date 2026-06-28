@@ -14,6 +14,7 @@ type Config struct {
 	R2_ACCOUNT_ID        string
 	R2_ACCESS_KEY_ID     string
 	R2_ACCESS_KEY_SECRET string
+	R2_PUBLIC_DOMAIN     string
 	RABBIT_MQ_URL        string
 }
 
@@ -30,9 +31,10 @@ func Load() (*Config, error) {
 	r2_account_id := os.Getenv("R2_ACCOUNT_ID")
 	r2_access_key_id := os.Getenv("R2_ACCESS_KEY_ID")
 	r2_access_key_secret := os.Getenv("R2_ACCESS_KEY_SECRET")
+	r2_public_domain := os.Getenv("R2_PUBLIC_DOMAIN")
 	rabbit_mq := os.Getenv("RABBIT_MQ_URL")
 
-	if db == "" || port == "" || bucket_name == "" || r2_account_id == "" || r2_access_key_id == "" || r2_access_key_secret == "" || rabbit_mq == "" {
+	if db == "" || port == "" || bucket_name == "" || r2_account_id == "" || r2_access_key_id == "" || r2_access_key_secret == "" || r2_public_domain == "" || rabbit_mq == "" {
 		return nil, errors.New("missing required environment variables")
 	}
 
@@ -43,6 +45,7 @@ func Load() (*Config, error) {
 		R2_ACCOUNT_ID:        r2_account_id,
 		R2_ACCESS_KEY_ID:     r2_access_key_id,
 		R2_ACCESS_KEY_SECRET: r2_access_key_secret,
+		R2_PUBLIC_DOMAIN:     r2_public_domain,
 		RABBIT_MQ_URL:        rabbit_mq,
 	}, nil
 }
