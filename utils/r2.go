@@ -58,6 +58,17 @@ func contentTypeFromKey(key string) string {
 	return "application/octet-stream"
 }
 
+func Download(ctx context.Context, svc *types.R2Service, key string) (io.ReadCloser, error) {
+	output, err := svc.R2Client.GetObject(ctx, &s3.GetObjectInput{
+		Bucket: aws.String(svc.Bucket),
+		Key:    aws.String(key),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("download from r2: %w", err)
+	}
+	return output.Body, nil
+}
+
 func Upload(ctx context.Context, svc *types.R2Service, key string, file io.Reader) error {
 	input := &s3.PutObjectInput{
 		Bucket:      aws.String(svc.Bucket),

@@ -75,12 +75,11 @@ func Publish(video_id string, conn *amqp.Connection) error {
 	return nil
 }
 
-func Consume(conn *amqp.Connection) (*types.VideoJob, amqp.Delivery, error) {
+func Consume(conn *amqp.Connection) (<-chan amqp.Delivery, *amqp.Channel, error) {
 	ch, err := conn.Channel()
 	if err != nil {
-		return nil, amqp.Delivery{}, err
+		return nil, nil, err
 	}
-	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
 		"video_queue",
@@ -91,7 +90,8 @@ func Consume(conn *amqp.Connection) (*types.VideoJob, amqp.Delivery, error) {
 		nil,
 	)
 	if err != nil {
-		return nil, amqp.Delivery{}, err
+		ch.Close()
+		return nil, nil, err
 	}
 
 	msgs, err := ch.Consume(
@@ -104,15 +104,9 @@ func Consume(conn *amqp.Connection) (*types.VideoJob, amqp.Delivery, error) {
 		nil,
 	)
 	if err != nil {
-		return nil, amqp.Delivery{}, err
+		ch.Close()
+		return nil, nil, err
 	}
 
-	msg := <-msgs
-
-	var job types.VideoJob
-	if err := json.Unmarshal(msg.Body, &job); err != nil {
-		return nil, msg, err
-	}
-
-	return &job, msg, nil
+	return msgs, ch, nil
 }

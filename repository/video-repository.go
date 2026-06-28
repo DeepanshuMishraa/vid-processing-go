@@ -72,6 +72,31 @@ func GetAllVideos(db *pgxpool.Pool) ([]models.Video, error) {
 	return videos, nil
 }
 
+func UpdateVideo(db *pgxpool.Pool, video models.Video) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	query := `UPDATE videos
+	           SET status = $1, video_360_url = $2, video_480_url = $3,
+	               video_720_url = $4, video_1080_url = $5, updated_at = $6
+	           WHERE id = $7`
+
+	_, err := db.Exec(ctx, query,
+		video.Status,
+		video.Video360URL,
+		video.Video480URL,
+		video.Video720URL,
+		video.Video1080URL,
+		time.Now().UTC(),
+		video.ID,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func GetVideoById(db *pgxpool.Pool, id string) (*models.Video, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
