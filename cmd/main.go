@@ -5,6 +5,7 @@ import (
 
 	"github.com/DeepanshuMishraa/vid-processing-go.git/config"
 	"github.com/DeepanshuMishraa/vid-processing-go.git/db"
+	"github.com/DeepanshuMishraa/vid-processing-go.git/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +22,12 @@ func main() {
 
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
+	}
+
+	err = services.ConnectRabbitMQ(cfg.RABBIT_MQ_URL)
+
+	if err != nil {
+		log.Fatalf("Failed to connect to RabbitMQ: %v", err)
 	}
 
 	router := gin.Default()
