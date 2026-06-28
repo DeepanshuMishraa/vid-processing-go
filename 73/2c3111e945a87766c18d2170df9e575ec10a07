@@ -1,0 +1,48 @@
+handlers/video_handler.go
+  s_52385b0e26faa2::t_495f74475c3712 24-25,29-30
+  s_52385b0e26faa2::t_b406acc7c6e428 13
+  s_52385b0e26faa2::t_52a9717298f669 9,19,21-23,33-35,38-39,41-42,48-49,52
+  s_52385b0e26faa2::t_5ca3f2781d0ee1 97-98
+  s_52385b0e26faa2::t_be7824e97e80a4 11,40,45
+  s_52385b0e26faa2::t_fbd6c32fd58f94 31-32
+  s_52385b0e26faa2::t_c7f2d10c8229fa 43-44
+worker/worker.go
+  s_52385b0e26faa2::t_6624e82ea20cc4 30-31,49-56,59,71-88
+  s_52385b0e26faa2::t_3724e48a85c13e 89-90
+repository/video-repository.go
+  s_52385b0e26faa2::t_fc986e63b67b0a 46-50,65-68,111-113,121-124
+go.mod
+  s_52385b0e26faa2::t_9eab956db67cc8 42
+types/types.go
+  s_52385b0e26faa2::t_b5a56ffda58f60 16
+  s_52385b0e26faa2::t_94909ac538bc33 17
+queue/queue.go
+  s_52385b0e26faa2::t_35f1748216bed4 90-92
+models/models.go
+  s_52385b0e26faa2::t_f2df1d5b2e5812 3-4,16-25
+cmd/main.go
+  s_52385b0e26faa2::t_21f3ff2e6a6fd9 55
+migrations/000001_create_video_table.up.sql
+  s_52385b0e26faa2::t_a848303c20e809 12-15
+  s_52385b0e26faa2::t_a3c5a2cea92d84 11
+utils/file.go
+  s_52385b0e26faa2::t_705f1de935f1d8 1-40
+go.sum
+  s_52385b0e26faa2::t_149fd14b75e909 69-70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "732c3111e945a87766c18d2170df9e575ec10a07",
+  "prompts": {},
+  "sessions": {
+    "s_52385b0e26faa2": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019f0d08-8e14-7211-b0ce-f6c703d62396",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "Deepanshu Mishra <d4deepanshu723@gmail.com>"
+    }
+  }
+}
