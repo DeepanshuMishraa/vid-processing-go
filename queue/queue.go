@@ -1,4 +1,4 @@
-package services
+package queue
 
 import (
 	"context"
@@ -12,26 +12,21 @@ import (
 
 func ConnectRabbitMQ(connectionUrl string) (*amqp.Connection, error) {
 	conn, err := amqp.Dial(connectionUrl)
-
 	if err != nil {
 		log.Println("Failed to connect to RabbitMQ")
 		return nil, err
 	}
 
 	log.Println("Connected to RabbitMQ")
-
-	defer conn.Close()
 	return conn, nil
 }
 
 func Publish(video_id string, conn *amqp.Connection) error {
 	ch, err := conn.Channel()
-
 	if err != nil {
 		log.Println("Failed to open a channel")
 		return err
 	}
-
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -44,7 +39,6 @@ func Publish(video_id string, conn *amqp.Connection) error {
 			amqp.QueueTypeArg: amqp.QueueTypeQuorum,
 		},
 	)
-
 	if err != nil {
 		log.Println("Failed to declare a queue")
 		return err
@@ -72,7 +66,6 @@ func Publish(video_id string, conn *amqp.Connection) error {
 			ContentType: "text/plain",
 			Body:        body,
 		})
-
 	if err != nil {
 		log.Println("Failed to publish a message")
 		return err

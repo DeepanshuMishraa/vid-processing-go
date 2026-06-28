@@ -5,10 +5,12 @@ import (
 	"time"
 
 	"github.com/DeepanshuMishraa/vid-processing-go.git/models"
+	"github.com/DeepanshuMishraa/vid-processing-go.git/queue"
 	"github.com/jackc/pgx/v5/pgxpool"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func CreateVideo(db *pgxpool.Pool, video models.Video) error {
+func CreateVideo(conn *amqp.Connection, db *pgxpool.Pool, video models.Video) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -24,6 +26,12 @@ func CreateVideo(db *pgxpool.Pool, video models.Video) error {
 		now,
 		now,
 	)
+	if err != nil {
+		return err
+	}
+
+	err = queue.Publish(video.ID, conn)
+
 	if err != nil {
 		return err
 	}

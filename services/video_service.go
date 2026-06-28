@@ -12,9 +12,10 @@ import (
 	"github.com/DeepanshuMishraa/vid-processing-go.git/types"
 	"github.com/DeepanshuMishraa/vid-processing-go.git/utils"
 	"github.com/jackc/pgx/v5/pgxpool"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func CreateVideo(db *pgxpool.Pool, r2Svc *types.R2Service, video models.Video, filePath string) error {
+func CreateVideo(conn *amqp.Connection, db *pgxpool.Pool, r2Svc *types.R2Service, video models.Video, filePath string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
@@ -34,7 +35,7 @@ func CreateVideo(db *pgxpool.Pool, r2Svc *types.R2Service, video models.Video, f
 	video.OriginalURL = fmt.Sprintf("https://%s.r2.cloudflarestorage.com/%s/%s",
 		r2Svc.AccountID, r2Svc.Bucket, key)
 
-	if err := repository.CreateVideo(db, video); err != nil {
+	if err := repository.CreateVideo(conn, db, video); err != nil {
 		return fmt.Errorf("create video record: %w", err)
 	}
 
